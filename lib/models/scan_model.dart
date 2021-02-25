@@ -11,7 +11,7 @@ class ScanModel {
     this.tipo,
     @required this.valor,
   }) {
-    if (this.tipo.contains('htpp')) {
+    if (this.valor.contains('htpp')) {
       this.tipo = 'http';
     } else {
       this.tipo = 'geo';
