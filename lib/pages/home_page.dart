@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_reader/pages/direcciones_page.dart';
 import 'package:qr_reader/pages/mapas_page.dart';
-import 'package:qr_reader/providers/db_provider.dart';
 import 'package:qr_reader/providers/scan_list_provider.dart';
 import 'package:qr_reader/providers/ui_provider.dart';
 import 'package:qr_reader/widgets/custom_navitagorbar.dart';
@@ -42,7 +41,6 @@ class _HomePageBody extends StatelessWidget {
     //obtener selected menu opt
     final uiProvider = Provider.of<UiProvider>(context);
     final currentIndex = uiProvider.selectedMenuOpt;
-    //TODO: Temporal leer la base de datos
 
     //final temsScan = new ScanModel(valor: 'googole.com');
 
