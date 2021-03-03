@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_reader/models/scan_model.dart';
@@ -58,6 +59,54 @@ class DBProvider {
   Future<int> nuevoScan(ScanModel nuevoScan) async {
     final db = await database;
     final res = await db.insert('Scans', nuevoScan.toJson());
+    return res;
+  }
+
+  Future<ScanModel> getScanById(int id) async {
+    final db = await database;
+    final res = await db.query('Scans', where: 'id = ?', whereArgs: [id]);
+
+    return res.isNotEmpty ? ScanModel.fromJson(res.first) : null;
+  }
+
+  Future<List<ScanModel>> getTodosLosSacans() async {
+    final db = await database;
+    final res = await db.query('Scans');
+
+    return res.isNotEmpty ? res.map((e) => ScanModel.fromJson(e)).toList() : [];
+  }
+
+  /*Future<List<ScanModel>> getScansPorTipo(String tipo) async {
+    final db = await database;
+    final res = await db.query('Scans', where: 'tipo = ?', whereArgs: [tipo]);
+
+    return res.isNotEmpty ? res.map((e) => ScanModel.fromJson(e)).toList() : [];
+  }*/
+
+  Future<List<ScanModel>> getScansPorTipo(String tipo) async {
+    final db = await database;
+    final res = await db.rawQuery('''SELECT * FROM Scans WHERE tipo = '$tipo'
+        ''');
+
+    return res.isNotEmpty ? res.map((e) => ScanModel.fromJson(e)).toList() : [];
+  }
+
+  Future<int> updateScan(ScanModel nuevoScan) async {
+    final db = await database;
+    final res = await db.update('Scans', nuevoScan.toJson(),
+        where: 'id = ?', whereArgs: [nuevoScan.id]);
+    return res;
+  }
+
+  Future<int> deleteScan(int id) async {
+    final db = await database;
+    final res = await db.delete('Scans', where: 'id = ?', whereArgs: [id]);
+    return res;
+  }
+
+  Future<int> deleteAllScan() async {
+    final db = await database;
+    final res = await db.delete('Scans');
     return res;
   }
 }
