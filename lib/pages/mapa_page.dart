@@ -15,7 +15,6 @@ class _MapaPageState extends State<MapaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
     final ScanModel scan = ModalRoute.of(context).settings.arguments;
 
     final CameraPosition puntoinicial = CameraPosition(
@@ -43,36 +42,17 @@ class _MapaPageState extends State<MapaPage> {
               })
         ],
       ),
-      body: Stack(children: [
-        GoogleMap(
-          zoomControlsEnabled: true,
-          myLocationButtonEnabled: false,
-          markers: markers,
-          mapType: mapType,
-          initialCameraPosition: puntoinicial,
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
-        ),
-        Positioned(
-          child: floatingbutton(),
-          left: MediaQuery.of(context).size.width - 120,
-          bottom: 17.5,
-        )
-
-        /*RaisedButton(
-          elevation: 15,
-          child: Icon(Icons.layers),
-          onPressed: () {
-            if (mapType == MapType.normal) {
-              mapType = MapType.satellite;
-            } else {
-              mapType = MapType.normal;
-            }
-            setState(() {});
-          },
-        )*/
-      ]),
+      body: GoogleMap(
+        zoomControlsEnabled: false,
+        myLocationButtonEnabled: false,
+        markers: markers,
+        mapType: mapType,
+        initialCameraPosition: puntoinicial,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
+      floatingActionButton: floatingbutton(),
     );
   }
 
